@@ -7,7 +7,7 @@ import numpy as np
 
 from ._conjugate_gradient import cg_c as cython_cg_c
 
-def python_cg_c(B: np.ndarray, i: int, max_iter: int, tol: float, N: int):
+def python_cg_c_with_extra_info(B: np.ndarray, i: int, max_iter: int, tol: float, N: int):
 
     x = np.zeros(N)
     B_diag = np.empty(N)
@@ -15,6 +15,7 @@ def python_cg_c(B: np.ndarray, i: int, max_iter: int, tol: float, N: int):
     y = np.empty(N)
     p = np.empty(N)
     Ap = np.empty(N)
+    norms = np.empty(max_iter) * np.nan
 
     B_diag = np.diag(B)
     r = B[i,:]
@@ -33,6 +34,7 @@ def python_cg_c(B: np.ndarray, i: int, max_iter: int, tol: float, N: int):
         x = x +  minus_alpha * p
         r = r + Ap * minus_alpha
         norm = np.linalg.norm(r)
+        norms[n] = norm
         if norm < tol:
             break
         for j in range(N):
@@ -42,7 +44,10 @@ def python_cg_c(B: np.ndarray, i: int, max_iter: int, tol: float, N: int):
         prod_old = prod_new
         for j in range(N):
             p[j] = y[j] + beta * p[j]
-    return x
+    return x, n, norms
+
+def python_cg_c(B: np.ndarray, i: int, max_iter: int, tol: float, N: int):
+    return python_cg_c_with_n(B, i, max_iter, tol, N)[0]
 
 
 def amari_d(W, A):
@@ -72,5 +77,7 @@ def cg(B, i, max_iter=10, tol=1e-10, use_cython=True):
     '''
     Wrapper to call Cython
     '''
-    cg_c = cython_cg_c if use_cython else python_cg_c
+    cg_c = cython_cg_c
+    if not use_cython:
+        cg_c = python_cg_c
     return cg_c(B, i, max_iter, tol, B.shape[0])
