@@ -4,21 +4,12 @@ This repository contains the code for the AISTATS 2019 paper "Stochastic algorit
 > Ablin, P., Gramfort, A., Cardoso, J.F. & Bach, F. (2019). Stochastic algorithms with descent guarantees for ICA. Proceedings of Machine Learning Research, in PMLR 89:1564-1573
 
 ### Installation
-To get started, clone the repository, activate a python 3.6 virtual environment, install the project's requirements, and install the package.
+To get started, clone the repository and run pip install.
 
 ```shell
-# create and activate a virtual environment with python 3.6
-conda create -y -n mmica python=3.6 && conda activate mmica
-
-# install the packages in requirements.txt
-# (Note that while setuptools can technically do this step, sometimes the build fails.)
-conda install --yes -c conda-forge --file requirements.txt 
-
-# compile the extension and install mmica as a package
-python setup.py install
-
-# sometimes this helps when the build fails:
-# python setup.py build_ext --inplace 
+git clone https://github.com/pierreablin/mmica
+cd mmica
+pip install -e .
 ```
 
 ### API
