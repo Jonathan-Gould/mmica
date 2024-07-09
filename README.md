@@ -9,6 +9,7 @@ To get started, clone the repository and run pip install.
 ```shell
 git clone https://github.com/pierreablin/mmica
 cd mmica
+pip install --requirement requirements.txt
 pip install -e .
 ```
 
