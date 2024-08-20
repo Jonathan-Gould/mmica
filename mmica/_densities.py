@@ -40,7 +40,7 @@ class Huber(object):
         return scored_u(Y)
 
 
-@jit(parallel=True, fastmath=True, nopython=False)
+@jit(parallel=True, fastmath=True, nopython=True)
 def logp_u(Y):
     N, T = Y.shape
     output = np.empty((N, T))
@@ -54,7 +54,7 @@ def logp_u(Y):
     return output
 
 
-@jit(parallel=True, fastmath=True, nopython=False)
+@jit(parallel=True, fastmath=True, nopython=True)
 def score_u(Y):
     N, T = Y.shape
     output = np.empty((N, T))
@@ -70,7 +70,7 @@ def score_u(Y):
     return output
 
 
-@jit(parallel=True, fastmath=True, nopython=False)
+@jit(parallel=True, fastmath=True, nopython=True)
 def scored_u(Y):
     N, T = Y.shape
     output = np.zeros((N, T))
@@ -81,7 +81,7 @@ def scored_u(Y):
     return output
 
 
-@jit(parallel=True, fastmath=True, nopython=False)
+@jit(parallel=True, fastmath=True, nopython=True)
 def ustar_u(Y):
     N, T = Y.shape
     output = np.ones((N, T))
