@@ -1,7 +1,10 @@
 [project]
 name = 'mmica'
 version = '0.1'
-authors = [ {name = 'Pierre Ablin', email ='pierreablin@gmail.com' } ]
+authors = [ 
+    {name = 'Pierre Ablin', email ='pierreablin@gmail.com' },
+    {name = 'Jonathan Gould', email ='jngould@umich.edu' },
+]
 license = {text = "MIT License"}
 description = 'Stochastic algorithms for ICA'
 dependencies = ['numpy']
