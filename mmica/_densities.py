@@ -2,7 +2,7 @@
 #
 # License: MIT
 import numpy as np
-from numba import jit
+from numba import jit, prange
 
 
 class Sigmoid(object):
@@ -44,8 +44,8 @@ class Huber(object):
 def logp_u(Y):
     N, T = Y.shape
     output = np.empty((N, T))
-    for i in range(N):
-        for j in range(T):
+    for i in prange(N):
+        for j in prange(T):
             y = abs(Y[i, j])
             if y < 1:
                 output[i, j] = 0.5 * y ** 2

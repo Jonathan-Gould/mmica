@@ -3,7 +3,7 @@
 # License: MIT
 import numpy as np
 import numba as nb
-from numba import njit
+from numba import njit, prange
 
 from ._utils import cg
 from ._densities import Huber, Sigmoid
@@ -150,8 +150,8 @@ def min_W(W, A, maxiter_cg):
 @njit(fastmath=True, parallel=True)
 def replace(A, B, update_idx, beginning):
     q, n = update_idx.shape
-    for i in range(n):
-        for j in range(q):
+    for i in prange(n):
+        for j in prange(q):
             x = update_idx[j, i]
             A[x, i + beginning] = B[x, i]
 
@@ -160,14 +160,14 @@ def replace(A, B, update_idx, beginning):
 def compute_A(U, X):
     N, T = U.shape
     A = np.zeros((N, N, N))
-    for i in range(N):
+    for i in prange(N):
         u = U[i]
-        for j in range(N):
+        for j in prange(N):
             x = X[j]
-            for k in range(j+1):
+            for k in prange(j+1):
                 y = X[k]
                 tmp = 0.
-                for t in range(T):
+                for t in prange(T):
                     tmp += u[t] * x[t] * y[t]
                 tmp /= T
                 A[i, j, k] = tmp
@@ -188,20 +188,20 @@ def compute_A_idx(U, X, update_idx):
     """
     N, T = X.shape
     A = np.zeros((N, N, N))
-    for t in range(T):
+    for t in prange(T):
         x = X[:, t]
         u = U[:, t]
         idx = update_idx[:, t]
         for i in idx:
             ui = u[i]
             Ai = A[i]
-            for j in range(N):
+            for j in prange(N):
                 xj = x[j]
-                for k in range(j + 1):
+                for k in prange(j + 1):
                     tmp = ui * xj * x[k]
                     Ai[j, k] += tmp
-    for i in range(N):
-        for j in range(N):
-            for k in range(j):
+    for i in prange(N):
+        for j in prange(N):
+            for k in prange(j):
                 A[i, k, j] = A[i, j, k]
     return A / T
