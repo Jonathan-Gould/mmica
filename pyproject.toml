@@ -7,7 +7,7 @@ authors = [
 ]
 license = {text = "MIT License"}
 description = 'Stochastic algorithms for ICA'
-dependencies = ['numpy']
+dependencies = ['numpy', 'numba']
 
 [project.urls]
 repository = 'https://github.com/pierreablin/mmica'
